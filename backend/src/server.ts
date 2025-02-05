@@ -1,9 +1,7 @@
 import express, { Application } from "express";
 import cors from "cors";
 import environment from "./environment";
-import user from "./controllers/user.controller";
-import borrow from "./controllers/borrow.controller";
-import book from "./controllers/book.controller";
+import auth from "./controllers/auth.controller";
 
 const app: Application = express();
 
@@ -15,9 +13,7 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.use("/user", user);
-app.use("/borrow", borrow);
-app.use("/book", book);
+app.use("/auth", auth);
 
 app.listen(environment.PORT, () => {
   console.log(`Server is running on port ${environment.PORT}`);
