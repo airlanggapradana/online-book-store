@@ -2,6 +2,8 @@ import express, { Application } from "express";
 import cors from "cors";
 import environment from "./environment";
 import auth from "./controllers/auth.controller";
+import borrow from "./controllers/borrow.controller";
+import { authMiddleware } from "./middleware/auth.middleware";
 
 const app: Application = express();
 
@@ -14,6 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", auth);
+app.use("/borrow", authMiddleware, borrow);
 
 app.listen(environment.PORT, () => {
   console.log(`Server is running on port ${environment.PORT}`);

@@ -31,11 +31,13 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body as Prisma.UserCreateInput;
+  const { email, username, password } = req.body as Prisma.UserCreateInput;
 
   try {
-    const isUserExists = await prisma.user.findUnique({
-      where: { email },
+    const isUserExists = await prisma.user.findFirst({
+      where: {
+        OR: [{ email }, { username }],
+      },
     });
 
     if (isUserExists) {

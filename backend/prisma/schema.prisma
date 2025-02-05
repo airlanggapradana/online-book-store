@@ -24,14 +24,19 @@ model User {
 }
 
 model Borrow {
-  id            String   @id @default(cuid())
-  nama_peminjam String
-  judul_buku    String
-  author        String
-  tgl_pinjam    DateTime @default(now())
-  tgl_kembali   DateTime @updatedAt
-  returned      Boolean  @default(false)
+  id          String    @id @default(cuid())
+  peminjam    String
+  buku        String
+  author      String
+  tgl_pinjam  DateTime  @default(now())
+  tgl_kembali DateTime?
+  isReturned  Boolean?  @default(false)
+  isLate      Boolean?  @default(false)
+  status      Status    @default(DIPINJAM)
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum Status {
+  DIPINJAM
+  DIKEMBALIKAN
+  TERLAMBAT
 }
