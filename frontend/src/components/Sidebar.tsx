@@ -15,7 +15,7 @@ export function Sidebar() {
   return (
     <div className="flex w-64 flex-col border-r bg-background">
       <div className="flex h-16 items-center justify-center border-b">
-        <span className="text-2xl font-semibold">LMS Dashboard</span>
+        <span className="text-2xl font-semibold">Dashboard</span>
       </div>
       <nav className="flex-1 overflow-y-auto">
         <ul className="space-y-4 p-2">
