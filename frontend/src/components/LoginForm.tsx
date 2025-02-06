@@ -47,8 +47,8 @@ const LoginForm = () => {
           duration: 1000,
         });
         form.reset();
-        router.push("/dashboard");
         await setCookie("token", res.result?.token as string);
+        router.push("/dashboard");
       }
     } catch (error) {
       toast({
@@ -69,13 +69,9 @@ const LoginForm = () => {
             render={({ field }) => (
               <FormItem>
                 <div className="grid gap-2">
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="m@example.com"
-                      {...field}
-                    />
+                    <Input type="text" placeholder="akusigma" {...field} />
                   </FormControl>
                 </div>
                 <FormMessage />

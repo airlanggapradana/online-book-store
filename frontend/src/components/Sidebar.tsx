@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Book, Calendar, Home, BarChart, Settings, LogOut } from "lucide-react";
+import { Book, Calendar, Home, BarChart, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
+import LogoutBtn from "@/utils/LogoutBtn";
 
 const navItems = [
   { icon: Home, label: "Dashboard", href: "/" },
@@ -17,13 +18,13 @@ export function Sidebar() {
         <span className="text-2xl font-semibold">LMS Dashboard</span>
       </div>
       <nav className="flex-1 overflow-y-auto">
-        <ul className="space-y-1 p-2">
+        <ul className="space-y-4 p-2">
           {navItems.map((item, index) => (
             <li key={index}>
               <Link
                 href={item.href}
                 className={cn(
-                  "flex items-center rounded-lg px-4 py-2 text-foreground hover:bg-accent hover:text-accent-foreground",
+                  "flex items-center rounded-lg px-4 py-3 text-foreground hover:bg-accent hover:text-accent-foreground",
                   index === 0 && "bg-accent text-accent-foreground",
                 )}
               >
@@ -35,10 +36,7 @@ export function Sidebar() {
         </ul>
       </nav>
       <div className="border-t p-4">
-        <button className="flex w-full items-center rounded-lg px-4 py-2 text-foreground hover:bg-accent hover:text-accent-foreground">
-          <LogOut className="mr-3 h-5 w-5" />
-          Logout
-        </button>
+        <LogoutBtn />
       </div>
     </div>
   );
