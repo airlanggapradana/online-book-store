@@ -1,7 +1,12 @@
 import axios from "axios";
 import { env } from "@/env";
-import { LoginSchema, RegisterSchema } from "./schema";
-import { IGetAllBorrows, ILogin, IRegister } from "@/types/api.type";
+import { CreateBookSchema, LoginSchema, RegisterSchema } from "./schema";
+import {
+  ICreateBorrow,
+  IGetAllBorrows,
+  ILogin,
+  IRegister,
+} from "@/types/api.type";
 
 export const register = async (data: RegisterSchema) => {
   try {
@@ -48,6 +53,24 @@ export const getAllBorrows = async (token: string) => {
     });
 
     return { status: response.status, result: response.data as IGetAllBorrows };
+  } catch (error) {
+    return { status: 500, message: error };
+  }
+};
+
+export const createBorrow = async (data: CreateBookSchema, token: string) => {
+  try {
+    const response = await axios.post(
+      `${env.NEXT_PUBLIC_API_URL}/borrow`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    return { status: response.status, result: response.data as ICreateBorrow };
   } catch (error) {
     return { status: 500, message: error };
   }

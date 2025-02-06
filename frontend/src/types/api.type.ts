@@ -30,3 +30,18 @@ export interface IGetAllBorrows {
     status: string;
   }[];
 }
+
+export interface ICreateBorrow {
+  message: string;
+  data: {
+    id: string;
+    peminjam: string;
+    buku: string;
+    author: string;
+    tgl_pinjam: Date;
+    tgl_kembali: Date;
+    isReturned: boolean;
+    isLate: boolean;
+    status: string;
+  };
+}

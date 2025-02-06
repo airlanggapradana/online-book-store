@@ -24,7 +24,7 @@ const DashboardContent = ({ token }: { token: string }) => {
         <ActiveBorrows total={activeBorrows} />
         <UpcomingDeadlines data={data.result} />
       </div>
-      <DataPeminjam data={data.result} />
+      <DataPeminjam data={data.result} token={token} />
     </div>
   );
 };

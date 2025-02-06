@@ -13,7 +13,13 @@ import { IGetAllBorrows } from "@/types/api.type";
 import { format } from "date-fns";
 import AddRecord from "./AddRecord";
 
-const DataPeminjam = ({ data }: { data?: IGetAllBorrows }) => {
+const DataPeminjam = ({
+  data,
+  token,
+}: {
+  data?: IGetAllBorrows;
+  token: string;
+}) => {
   if (!data) return null;
   return (
     <Card>
@@ -21,7 +27,7 @@ const DataPeminjam = ({ data }: { data?: IGetAllBorrows }) => {
         <CardTitle className="flex items-center justify-between">
           Daftar Peminjam
           <span>
-            <AddRecord />
+            <AddRecord token={token} />
           </span>
         </CardTitle>
       </CardHeader>

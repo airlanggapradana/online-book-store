@@ -19,12 +19,21 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createBookSchema, CreateBookSchema } from "@/utils/schema";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "./ui/calendar";
+import { format } from "date-fns";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { createBorrow } from "@/utils/api";
 
-const AddRecord = () => {
+const AddRecord = ({ token }: { token: string }) => {
+  const queryClient = useQueryClient();
   const [open, setOpen] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const form = useForm<CreateBookSchema>({
     resolver: zodResolver(createBookSchema),
@@ -32,29 +41,41 @@ const AddRecord = () => {
       peminjam: "",
       buku: "",
       author: "",
+      tgl_kembali: new Date(),
     },
   });
 
-  const onSubmit: SubmitHandler<CreateBookSchema> = async (data) => {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(data);
-    form.reset();
-    setOpen(false);
-  };
+  const { mutateAsync } = useMutation({
+    mutationFn: async (data: CreateBookSchema) => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await createBorrow(data, token);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["all-borrows"] });
+      form.reset();
+      setOpen(false);
+      setIsSubmitting(false);
+    },
+  });
+
+  const onSubmit = form.handleSubmit((data) => {
+    setIsSubmitting(true);
+    mutateAsync(data);
+  });
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default">Add New Record</Button>
+        <Button variant="default">Tambah Record</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-xl">
         <DialogHeader>
-          <DialogTitle>Add New Record</DialogTitle>
+          <DialogTitle>Buat Record Baru</DialogTitle>
           <DialogDescription>
-            Fill in the details for the new record. Click save when you're done.
+            Isi detail untuk record baru. Klik simpan jika sudah selesai.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <form className="space-y-4" onSubmit={onSubmit}>
             <FormField
               control={form.control}
               name="peminjam"
@@ -98,13 +119,44 @@ const AddRecord = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="tgl_kembali"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Tanggal Pengembalian</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant={"outline"}
+                          className={`w-full pl-3 text-left font-normal ${!field.value && "text-muted-foreground"}`}
+                        >
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pilih Tanggal</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <DialogFooter>
-              <Button
-                type="submit"
-                onClick={form.handleSubmit(onSubmit)}
-                disabled={form.formState.isSubmitting}
-              >
-                {form.formState.isSubmitting ? "Saving..." : "Save New Record"}
+              <Button type="submit" onClick={onSubmit} disabled={isSubmitting}>
+                {isSubmitting ? "Saving..." : "Save New Record"}
               </Button>
             </DialogFooter>
           </form>
