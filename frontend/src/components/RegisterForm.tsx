@@ -17,8 +17,13 @@ import { Icons } from "./icons";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { registerSchema, RegisterSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { register } from "@/utils/api";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
@@ -35,8 +40,26 @@ const RegisterForm = () => {
 
   const onSubmit: SubmitHandler<RegisterSchema> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(data);
-    form.reset();
+    try {
+      const res = await register(data);
+      if (res.status === 201) {
+        toast({
+          title: "Success",
+          variant: "default",
+          description: "Account created successfully",
+          duration: 1000,
+        });
+        form.reset();
+        router.push("/");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        variant: "destructive",
+        description: "Something went wrong",
+        duration: 1000,
+      });
+    }
   };
   return (
     <Form {...form}>
@@ -48,7 +71,7 @@ const RegisterForm = () => {
             render={({ field }) => (
               <FormItem>
                 <div className="grid gap-2">
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input type="text" placeholder="John Doe" {...field} />
                   </FormControl>

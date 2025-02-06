@@ -16,8 +16,14 @@ import {
 import { useForm, SubmitHandler } from "react-hook-form";
 import { loginSchema, LoginSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/hooks/use-toast";
+import { login } from "@/utils/api";
+import { useRouter } from "next/navigation";
+import { setCookie } from "@/utils/cookies";
 
 const LoginForm = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   const [showPassword, setShowPassword] = React.useState(false);
 
   // react form
@@ -31,8 +37,27 @@ const LoginForm = () => {
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log(data);
-    form.reset();
+    try {
+      const res = await login(data);
+      if (res.status === 200) {
+        toast({
+          title: "Success",
+          variant: "default",
+          description: "Login successfully",
+          duration: 1000,
+        });
+        form.reset();
+        router.push("/dashboard");
+        await setCookie("token", res.result?.token as string);
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong",
+        variant: "destructive",
+        duration: 1000,
+      });
+    }
   };
   return (
     <Form {...form}>
