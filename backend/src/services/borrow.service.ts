@@ -22,10 +22,10 @@ export const getAllBorrows = async (req: Request, res: Response) => {
 };
 
 export const createBorrow = async (req: Request, res: Response) => {
-  const { peminjam, buku, author } = req.body;
+  const { peminjam, buku, author, tgl_kembali } = req.body;
 
-  if (!peminjam || !buku || !author) {
-    res.status(400).json({ message: "Nama, buku, and author are required" });
+  if (!peminjam || !buku || !author || !tgl_kembali) {
+    res.status(400).json({ message: "fields are required" });
     return;
   }
 
@@ -35,7 +35,7 @@ export const createBorrow = async (req: Request, res: Response) => {
         peminjam,
         buku,
         author,
-        tgl_kembali: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        tgl_kembali,
       },
     });
     res.status(201).json({

@@ -11,13 +11,19 @@ import {
 import { Badge } from "./ui/badge";
 import { IGetAllBorrows } from "@/types/api.type";
 import { format } from "date-fns";
+import AddRecord from "./AddRecord";
 
 const DataPeminjam = ({ data }: { data?: IGetAllBorrows }) => {
   if (!data) return null;
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Daftar Peminjam</CardTitle>
+        <CardTitle className="flex items-center justify-between">
+          Daftar Peminjam
+          <span>
+            <AddRecord />
+          </span>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
@@ -37,7 +43,7 @@ const DataPeminjam = ({ data }: { data?: IGetAllBorrows }) => {
                 <TableCell className="font-medium">
                   <div className="flex items-center space-x-3">
                     <div>
-                      <div className="font-medium">{borrow.peminjam}</div>
+                      <h1 className="font-medium">{borrow.peminjam}</h1>
                     </div>
                   </div>
                 </TableCell>

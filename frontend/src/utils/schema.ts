@@ -20,5 +20,12 @@ export const loginSchema = z.object({
   password: z.string().min(8),
 });
 
+export const createBookSchema = z.object({
+  peminjam: z.string().min(3),
+  buku: z.string().min(3),
+  author: z.string().min(3),
+});
+
+export type CreateBookSchema = z.infer<typeof createBookSchema>;
 export type LoginSchema = z.infer<typeof loginSchema>;
 export type RegisterSchema = z.infer<typeof registerSchema>;
