@@ -12,14 +12,11 @@ import { Badge } from "./ui/badge";
 import { format } from "date-fns";
 import AddRecord from "./AddRecord";
 import { BorrowsProps } from "./ActiveBorrows";
+import useToken from "@/hooks/useToken";
 
-const DataPeminjam = ({
-  data,
-  token,
-}: {
-  data: BorrowsProps;
-  token: string;
-}) => {
+const DataPeminjam = ({ data }: { data: BorrowsProps }) => {
+  const { token } = useToken();
+  if (!token) return null;
   return (
     <Card>
       <CardHeader>

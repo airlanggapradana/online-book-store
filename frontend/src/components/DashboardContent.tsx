@@ -5,8 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllBorrows } from "@/utils/api";
 import UpcomingDeadlines from "./UpcomingDeadlines";
 import DataPeminjam from "./DataPeminjam";
+import useToken from "@/hooks/useToken";
 
-const DashboardContent = ({ token }: { token: string }) => {
+const DashboardContent = () => {
+  const { token } = useToken();
+  if (!token) return null;
+
   const { data, isError, isLoading } = useQuery({
     queryKey: ["all-borrows"],
     queryFn: async () => await getAllBorrows(token),
@@ -23,7 +27,7 @@ const DashboardContent = ({ token }: { token: string }) => {
         <ActiveBorrows data={actualData} />
         <UpcomingDeadlines data={actualData} />
       </div>
-      <DataPeminjam data={actualData} token={token} />
+      <DataPeminjam data={actualData} />
     </div>
   );
 };
