@@ -9,13 +9,14 @@ import useToken from "@/hooks/useToken";
 
 const DashboardContent = () => {
   const { token } = useToken();
-  if (!token) return null;
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ["all-borrows"],
-    queryFn: async () => await getAllBorrows(token),
+    queryFn: async () => await getAllBorrows(token as string),
+    enabled: !!token,
   });
 
+  if (!token) return null;
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
   if (!data) return <div>No data...</div>;

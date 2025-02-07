@@ -60,3 +60,18 @@ export interface IGetBorrow {
     status: string;
   };
 }
+
+export interface IUpdateBorrow {
+  message: string;
+  data: {
+    id: string;
+    peminjam: string;
+    buku: string;
+    author: string;
+    tgl_pinjam: Date;
+    tgl_kembali: Date;
+    isReturned: boolean;
+    isLate: boolean;
+    status: string;
+  };
+}

@@ -1,12 +1,18 @@
 import axios from "axios";
 import { env } from "@/env";
-import { CreateBookSchema, LoginSchema, RegisterSchema } from "./schema";
+import {
+  CreateBookSchema,
+  LoginSchema,
+  RegisterSchema,
+  UpdateBookSchema,
+} from "./schema";
 import {
   ICreateBorrow,
   IGetAllBorrows,
   IGetBorrow,
   ILogin,
   IRegister,
+  IUpdateBorrow,
 } from "@/types/api.type";
 
 export const register = async (data: RegisterSchema) => {
@@ -95,5 +101,46 @@ export const createBorrow = async (data: CreateBookSchema, token: string) => {
     return { status: response.status, result: response.data as ICreateBorrow };
   } catch (error) {
     return { status: 500, message: error };
+  }
+};
+
+export const updateBorrow = async (
+  id: string,
+  token: string,
+  data: UpdateBookSchema,
+) => {
+  try {
+    const currentDate = new Date();
+    const returnDate = new Date(data.tgl_kembali);
+    const status = currentDate <= returnDate ? "DIKEMBALIKAN" : "TERLAMBAT";
+
+    const isReturned = status === "DIKEMBALIKAN" || status === "TERLAMBAT";
+    const isLate = status === "TERLAMBAT";
+
+    const response = await axios.put(
+      `${env.NEXT_PUBLIC_API_URL}/borrow/${id}`,
+      {
+        peminjam: data.peminjam,
+        buku: data.buku,
+        author: data.author,
+        tgl_kembali: currentDate,
+        status: status,
+        isReturned: isReturned,
+        isLate: isLate,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    return {
+      status: response.status,
+      result: response.data as IUpdateBorrow,
+      message: response.data.message,
+    };
+  } catch (error) {
+    return { status: 500, message: error, result: null };
   }
 };

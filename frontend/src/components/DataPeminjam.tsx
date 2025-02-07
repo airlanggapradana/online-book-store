@@ -13,6 +13,7 @@ import { format } from "date-fns";
 import AddRecord from "./AddRecord";
 import { BorrowsProps } from "./ActiveBorrows";
 import useToken from "@/hooks/useToken";
+import MarkAsReturned from "./MarkAsReturned";
 
 const DataPeminjam = ({ data }: { data: BorrowsProps }) => {
   const { token } = useToken();
@@ -37,6 +38,7 @@ const DataPeminjam = ({ data }: { data: BorrowsProps }) => {
               <TableHead>Tanggal Peminjaman</TableHead>
               <TableHead>Tanggal Pengembalian</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -62,6 +64,11 @@ const DataPeminjam = ({ data }: { data: BorrowsProps }) => {
                     >
                       {borrow.status}
                     </Badge>
+                  </TableCell>
+                  <TableCell>
+                    {borrow.status === "DIPINJAM" && (
+                      <MarkAsReturned key={borrow.id} data={borrow} />
+                    )}
                   </TableCell>
                 </TableRow>
               ))
