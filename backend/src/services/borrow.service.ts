@@ -75,7 +75,6 @@ export const createBorrow = async (req: Request, res: Response) => {
 export const updateBorrow = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { isReturned, peminjam, buku, author, isLate, status } = req.body;
-  const returnedInput = isReturned as unknown as string;
 
   try {
     const updatedBorrow = await prisma.borrow.update({
@@ -84,8 +83,9 @@ export const updateBorrow = async (req: Request, res: Response) => {
         peminjam,
         buku,
         author,
-        isReturned: returnedInput === "true" ? true : false,
-        isLate: isLate === "true" ? true : false,
+        tgl_kembali: new Date(),
+        isReturned,
+        isLate,
         status,
       },
     });
