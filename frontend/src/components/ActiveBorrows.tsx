@@ -1,17 +1,15 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-const ActiveBorrows = ({ total }: { total: number }) => {
+const ActiveBorrows = () => {
   return (
     <Card>
       <CardHeader>
         <CardTitle>Total Peminjaman</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-4xl font-bold">{total}</div>
-        <p className="text-sm text-muted-foreground">
-          Total ada {total} peminjaman yang sedang berlangsung.
-        </p>
+        <h1 className="text-4xl font-bold">0</h1>
+        <p className="text-sm text-muted-foreground">tidak ada peminjaman</p>
       </CardContent>
     </Card>
   );

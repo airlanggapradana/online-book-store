@@ -60,7 +60,11 @@ const DataPeminjam = ({
                 <TableCell>
                   <Badge
                     variant={
-                      borrow.status === "DIPINJAM" ? "default" : "secondary"
+                      borrow.status === "DIPINJAM"
+                        ? "default"
+                        : borrow.status === "TERLAMBAT"
+                          ? "destructive"
+                          : "secondary"
                     }
                   >
                     {borrow.status}

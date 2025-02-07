@@ -52,9 +52,13 @@ export const getAllBorrows = async (token: string) => {
       },
     });
 
-    return { status: response.status, result: response.data as IGetAllBorrows };
+    return {
+      status: response.status,
+      result: response.data as IGetAllBorrows,
+      message: response.data.message as IGetAllBorrows,
+    };
   } catch (error) {
-    return { status: 500, message: error };
+    return { status: 500, message: error, result: null };
   }
 };
 

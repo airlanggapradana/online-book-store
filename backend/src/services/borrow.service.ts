@@ -6,7 +6,7 @@ export const getAllBorrows = async (req: Request, res: Response) => {
     const borrows = await prisma.borrow.findMany();
 
     if (borrows.length === 0) {
-      res.status(404).json({ message: "No borrows found" });
+      res.status(200).json({ message: "No borrows found" });
       return;
     }
 

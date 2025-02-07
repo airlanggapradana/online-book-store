@@ -16,15 +16,14 @@ const DashboardContent = ({ token }: { token: string }) => {
   if (isError) return <div>Error...</div>;
   if (!data) return <div>No data...</div>;
 
-  const result = data.result?.borrows;
-  const activeBorrows = result?.length as number;
+  const actualData = data.result;
   return (
     <div className="space-y-6 p-6">
       <div className='lg:grid-cols-3" grid gap-6 md:grid-cols-2'>
-        <ActiveBorrows total={activeBorrows} />
-        <UpcomingDeadlines data={data.result} />
+        {/* <ActiveBorrows total={actualData} /> */}
+        {/* <UpcomingDeadlines data={data.result} /> */}
       </div>
-      <DataPeminjam data={data.result} token={token} />
+      {/* <DataPeminjam data={data.result} token={token} /> */}
     </div>
   );
 };
