@@ -15,7 +15,7 @@ const UpcomingDeadlines = ({ data }: { data: BorrowsProps }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Upcoming Deadlines</CardTitle>
+        <CardTitle>Deadline Terdekat</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">

@@ -30,6 +30,20 @@ export const createBookSchema = z.object({
   }),
 });
 
+export const updateBookSchema = z.object({
+  peminjam: z.string().min(3),
+  buku: z.string().min(3),
+  author: z.string().min(3),
+  tgl_kembali: z.date({
+    required_error: "Tanggal kembali harus diisi",
+    invalid_type_error: "Tanggal kembali harus berupa tanggal",
+  }),
+  status: z.enum(["DIPINJAM", "TERLAMBAT", "DIKEMBALIKAN"]),
+  isReturned: z.boolean({ required_error: "Status pengembalian harus diisi" }),
+  isLate: z.boolean({ required_error: "Status keterlambatan harus diisi" }),
+});
+
+export type UpdateBookSchema = z.infer<typeof updateBookSchema>;
 export type CreateBookSchema = z.infer<typeof createBookSchema>;
 export type LoginSchema = z.infer<typeof loginSchema>;
 export type RegisterSchema = z.infer<typeof registerSchema>;

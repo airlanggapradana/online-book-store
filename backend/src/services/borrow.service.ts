@@ -21,6 +21,29 @@ export const getAllBorrows = async (req: Request, res: Response) => {
   }
 };
 
+export const getBorrowById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const borrow = await prisma.borrow.findUnique({
+      where: { id },
+    });
+
+    if (!borrow) {
+      res.status(200).json({ message: "Borrow not found" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Borrow found",
+      borrow,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+    return;
+  }
+};
+
 export const createBorrow = async (req: Request, res: Response) => {
   const { peminjam, buku, author, tgl_kembali } = req.body;
 
