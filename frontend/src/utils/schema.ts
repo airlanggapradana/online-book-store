@@ -38,7 +38,7 @@ export const updateBookSchema = z.object({
     required_error: "Tanggal kembali harus diisi",
     invalid_type_error: "Tanggal kembali harus berupa tanggal",
   }),
-  status: z.enum(["DIPINJAM", "TERLAMBAT", "DIKEMBALIKAN"]),
+  status: z.string({ required_error: "Status harus diisi" }),
   isReturned: z.boolean({ required_error: "Status pengembalian harus diisi" }),
   isLate: z.boolean({ required_error: "Status keterlambatan harus diisi" }),
 });

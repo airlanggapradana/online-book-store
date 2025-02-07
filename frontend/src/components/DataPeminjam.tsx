@@ -12,7 +12,6 @@ import { Badge } from "./ui/badge";
 import { format } from "date-fns";
 import AddRecord from "./AddRecord";
 import { BorrowsProps } from "./ActiveBorrows";
-import MarkasReturned from "./MarkasReturned";
 
 const DataPeminjam = ({
   data,
@@ -41,7 +40,6 @@ const DataPeminjam = ({
               <TableHead>Tanggal Peminjaman</TableHead>
               <TableHead>Tanggal Pengembalian</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -67,9 +65,6 @@ const DataPeminjam = ({
                     >
                       {borrow.status}
                     </Badge>
-                  </TableCell>
-                  <TableCell className="flex items-center gap-3">
-                    <MarkasReturned borrowId={borrow.id} />
                   </TableCell>
                 </TableRow>
               ))
