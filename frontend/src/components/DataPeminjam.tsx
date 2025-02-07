@@ -18,6 +18,10 @@ import MarkAsReturned from "./MarkAsReturned";
 const DataPeminjam = ({ data }: { data: BorrowsProps }) => {
   const { token } = useToken();
   if (!token) return null;
+
+  const filteredByStatus = data?.filter(
+    (borrow) => borrow.status === "DIPINJAM",
+  );
   return (
     <Card>
       <CardHeader>
@@ -42,8 +46,8 @@ const DataPeminjam = ({ data }: { data: BorrowsProps }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data ? (
-              data.map((borrow) => (
+            {data && filteredByStatus ? (
+              filteredByStatus.map((borrow) => (
                 <TableRow key={borrow.id}>
                   <TableCell className="font-medium">
                     <h1 className="font-medium">{borrow.peminjam}</h1>

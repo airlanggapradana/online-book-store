@@ -100,3 +100,19 @@ export const updateBorrow = async (req: Request, res: Response) => {
     return;
   }
 };
+
+export const deleteBorrow = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    await prisma.borrow.delete({
+      where: { id },
+    });
+
+    res.status(200).json({ message: "Borrow deleted" });
+    return;
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+    return;
+  }
+};

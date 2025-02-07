@@ -16,21 +16,24 @@ export type BorrowsProps =
   | undefined;
 
 const ActiveBorrows = ({ data }: { data: BorrowsProps }) => {
+  const filteredByStatus = data?.filter(
+    (borrow) => borrow.status === "DIPINJAM",
+  );
   return (
     <Card>
       <CardHeader>
         <CardTitle>Total Peminjaman</CardTitle>
       </CardHeader>
       <CardContent>
-        {data ? (
+        {data && filteredByStatus ? (
           <>
             <h1 className="text-4xl font-bold">
-              {data.length === 0 ? "0" : data.length}
+              {filteredByStatus.length === 0 ? "0" : filteredByStatus.length}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {data.length === 0
+              {filteredByStatus.length === 0
                 ? "Tidak ada peminjaman"
-                : `Total ada ${data?.length} peminjaman`}
+                : `Total ada ${filteredByStatus?.length} peminjaman`}
             </p>
           </>
         ) : (

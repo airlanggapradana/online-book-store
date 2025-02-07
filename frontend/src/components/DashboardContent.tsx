@@ -6,6 +6,7 @@ import { getAllBorrows } from "@/utils/api";
 import UpcomingDeadlines from "./UpcomingDeadlines";
 import DataPeminjam from "./DataPeminjam";
 import useToken from "@/hooks/useToken";
+import HistoryBorrow from "./HistoryBorrow";
 
 const DashboardContent = () => {
   const { token } = useToken();
@@ -29,6 +30,7 @@ const DashboardContent = () => {
         <UpcomingDeadlines data={actualData} />
       </div>
       <DataPeminjam data={actualData} />
+      <HistoryBorrow data={actualData} />
     </div>
   );
 };
