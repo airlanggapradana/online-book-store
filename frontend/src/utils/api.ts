@@ -144,3 +144,24 @@ export const updateBorrow = async (
     return { status: 500, message: error, result: null };
   }
 };
+
+export const deleteBorrow = async (id: string, token: string) => {
+  try {
+    const response = await axios.delete(
+      `${env.NEXT_PUBLIC_API_URL}/borrow/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    return {
+      status: response.status,
+      message: response.data.message,
+      result: response.data,
+    };
+  } catch (error) {
+    return { status: 500, message: error, result: null };
+  }
+};

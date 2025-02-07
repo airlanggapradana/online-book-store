@@ -1,15 +1,9 @@
 import Link from "next/link";
-import { Book, Calendar, Home, BarChart, Settings } from "lucide-react";
+import { Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import LogoutBtn from "@/utils/LogoutBtn";
 
-const navItems = [
-  { icon: Home, label: "Dashboard", href: "/" },
-  { icon: Book, label: "Courses", href: "/courses" },
-  { icon: Calendar, label: "Schedule", href: "/schedule" },
-  { icon: BarChart, label: "Progress", href: "/progress" },
-  { icon: Settings, label: "Settings", href: "/settings" },
-];
+const navItems = [{ icon: Home, label: "Dashboard", href: "/" }];
 
 export function Sidebar() {
   return (
