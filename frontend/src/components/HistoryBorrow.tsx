@@ -12,12 +12,29 @@ import { Badge } from "./ui/badge";
 import { BorrowsProps } from "./ActiveBorrows";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
+import { useMutation } from "@tanstack/react-query";
+import useToken from "@/hooks/useToken";
+import { deleteBorrow } from "@/utils/api";
+import { useQueryClient } from "@tanstack/react-query";
+import { Button } from "./ui/button";
+import { Icons } from "./icons";
 
 const HistoryBorrow = ({ data }: { data: BorrowsProps }) => {
+  const { token } = useToken();
+  const queryClient = useQueryClient();
   const filteredByStatus = data?.filter(
     (borrow) =>
       borrow.status === "DIKEMBALIKAN" || borrow.status === "TERLAMBAT",
   );
+
+  const { mutateAsync: deleteItem, isPending } = useMutation({
+    mutationFn: async (id: string) => {
+      await deleteBorrow(id, token as string);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["all-borrows"] });
+    },
+  });
   return (
     <Card>
       <CardHeader>
@@ -58,10 +75,17 @@ const HistoryBorrow = ({ data }: { data: BorrowsProps }) => {
                   <TableCell>
                     {format(borrow.tgl_kembali, "PPPP", { locale: id })}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="flex items-center gap-3">
                     <Badge variant={borrow.isLate ? "destructive" : "default"}>
                       {borrow.isLate ? "Terlambat" : "Tepat Waktu / Lebih Awal"}
                     </Badge>
+                    <Button
+                      onClick={() => deleteItem(borrow.id)}
+                      variant="outline"
+                      disabled={isPending}
+                    >
+                      <Icons.trash className="h-5 w-5" />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))
