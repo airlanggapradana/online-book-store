@@ -15,6 +15,7 @@ To see the system in action, check out the demo video demonstrating how to use t
 1. Adding a new book record 📖
 2. Viewing the list of books 📑
 3. Deleting a book record ❌
+4. To try the demo use the username **adminadmin** and the password of **admin123**
 
 https://github.com/user-attachments/assets/437a96c6-39c3-470c-a728-6f0adee48a82
 
