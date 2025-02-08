@@ -49,6 +49,8 @@ const config = {
     "@typescript-eslint/non-nullable-type-assertion-style": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/prefer-nullish-coalescing": "off",
+    "@typescript-eslint/consistent-indexed-object-style": "off",
   },
 };
 module.exports = config;
