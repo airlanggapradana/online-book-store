@@ -46,6 +46,9 @@ const config = {
     ],
     "@typescript-eslint/no-unused-expressions": "off",
     "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/non-nullable-type-assertion-style": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
   },
 };
 module.exports = config;
